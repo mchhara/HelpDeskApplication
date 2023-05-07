@@ -16,6 +16,7 @@ namespace HelpDeskApplication.Domain.Entities
         public DateTime? ClosedAt { get; set; }
         public TicketStatus Status { get; set; } = TicketStatus.Open;
         public PriorityLevel Priority { get; set; } = PriorityLevel.Low;
+        public List<TicketComments>? Comments { get; set; }
         public string EncodedName { get; private set; } = default!;
 
         public void EndcodeName() => EncodedName = Title.ToLower().Replace(" ", "-");
