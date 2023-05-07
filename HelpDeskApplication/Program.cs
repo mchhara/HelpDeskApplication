@@ -1,7 +1,11 @@
+using HelpDeskApplication.Infrastucture.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddInfrastucture(builder.Configuration);
 
 var app = builder.Build();
 
