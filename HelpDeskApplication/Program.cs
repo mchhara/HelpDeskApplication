@@ -1,5 +1,6 @@
 using HelpDeskApplication.Infrastucture.Extensions;
 using HelpDeskApplication.Infrastucture.Seeders;
+using HelpDeskApplication.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddInfrastucture(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
