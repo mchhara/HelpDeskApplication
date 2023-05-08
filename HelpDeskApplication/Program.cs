@@ -1,4 +1,5 @@
 using HelpDeskApplication.Infrastucture.Extensions;
+using HelpDeskApplication.Infrastucture.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastucture(builder.Configuration);
 
 var app = builder.Build();
+
+var scope = app.Services.CreateScope();
+
+var seeder = scope.ServiceProvider.GetRequiredService<HelpDeskApplicationSeeder>();
+
+await seeder.Seed();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
