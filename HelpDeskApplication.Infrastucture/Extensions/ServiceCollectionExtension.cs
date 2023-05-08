@@ -1,4 +1,6 @@
-﻿using HelpDeskApplication.Infrastucture.Database;
+﻿using HelpDeskApplication.Domain.Interfaces;
+using HelpDeskApplication.Infrastucture.Database;
+using HelpDeskApplication.Infrastucture.Repositories;
 using HelpDeskApplication.Infrastucture.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,8 @@ namespace HelpDeskApplication.Infrastucture.Extensions
                 configuration.GetConnectionString("HelpDeskApplication")));
 
             services.AddScoped<HelpDeskApplicationSeeder>();
+
+            services.AddScoped<ITicketRepository,TicketRepository>();
         }
     }
 }
