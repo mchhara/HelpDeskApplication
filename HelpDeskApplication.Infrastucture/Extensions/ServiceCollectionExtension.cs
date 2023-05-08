@@ -1,4 +1,5 @@
 ﻿using HelpDeskApplication.Infrastucture.Database;
+using HelpDeskApplication.Infrastucture.Seeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace HelpDeskApplication.Infrastucture.Extensions
         {
             services.AddDbContext<HelpDeskApplicationDbContext>(options => options.UseSqlServer(
                 configuration.GetConnectionString("HelpDeskApplication")));
+
+            services.AddScoped<HelpDeskApplicationSeeder>();
         }
     }
 }

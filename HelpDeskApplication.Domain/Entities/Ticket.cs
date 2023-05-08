@@ -19,6 +19,6 @@ namespace HelpDeskApplication.Domain.Entities
         public List<TicketComments>? Comments { get; set; }
         public string EncodedName { get; private set; } = default!;
 
-        public void EndcodeName() => EncodedName = Title.ToLower().Replace(" ", "-");
+        public void EncodeName() => EncodedName = Title.ToLower().Replace(" ", "-");
     }
 }
