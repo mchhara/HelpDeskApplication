@@ -11,6 +11,12 @@ namespace HelpDeskApplication.Controllers
         {
             _ticketService = ticketService;
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task <IActionResult> Create(Domain.Entities.Ticket ticket)
         {
