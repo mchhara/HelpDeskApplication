@@ -10,5 +10,6 @@ namespace HelpDeskApplication.Domain.Interfaces
     {
         Task Create(Domain.Entities.Ticket ticket);
         Task <Domain.Entities.Ticket?> GetByTitle(string title);
+        Task<IEnumerable<Domain.Entities.Ticket>> GetAll(); 
     }
 }

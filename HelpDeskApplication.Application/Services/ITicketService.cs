@@ -5,5 +5,6 @@ namespace HelpDeskApplication.Application.Services
     public interface ITicketService
     {
         Task Create(TicketDto ticket);
+        Task<IEnumerable<TicketDto>> GetAll();
     }
 }
