@@ -1,5 +1,7 @@
-﻿using HelpDeskApplication.Domain.Interfaces;
+﻿using HelpDeskApplication.Domain.Entities;
+using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +23,8 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             _dbContext.Add(ticket);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<Domain.Entities.Ticket?> GetByTitle(string title)
+        =>  await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());
     }
 }

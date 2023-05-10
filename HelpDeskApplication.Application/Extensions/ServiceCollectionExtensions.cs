@@ -1,7 +1,10 @@
 ﻿
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using HelpDeskApplication.Application.Mappings;
 using HelpDeskApplication.Application.Services;
+using HelpDeskApplication.Application.Ticket;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelpDeskApplication.Application.Extensions
@@ -13,6 +16,9 @@ namespace HelpDeskApplication.Application.Extensions
             services.AddScoped<ITicketService, TicketService>();
 
             services.AddAutoMapper(typeof(HelpDeskApplicationMappingProfile));
+            services.AddValidatorsFromAssemblyContaining<TicketDtoValidator>()
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
         }
     }
 }
