@@ -1,5 +1,6 @@
 ﻿
 
+using HelpDeskApplication.Application.Mappings;
 using HelpDeskApplication.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,8 @@ namespace HelpDeskApplication.Application.Extensions
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddScoped<ITicketService, TicketService>();
+
+            services.AddAutoMapper(typeof(HelpDeskApplicationMappingProfile));
         }
     }
 }
