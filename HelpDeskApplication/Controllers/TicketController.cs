@@ -1,4 +1,5 @@
 ﻿using HelpDeskApplication.Application.Services;
+using HelpDeskApplication.Application.Ticket;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelpDeskApplication.Controllers
@@ -18,7 +19,7 @@ namespace HelpDeskApplication.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> Create(Domain.Entities.Ticket ticket)
+        public async Task <IActionResult> Create(TicketDto ticket)
         {
            await _ticketService.Create(ticket);
             return RedirectToAction(nameof(Create));
