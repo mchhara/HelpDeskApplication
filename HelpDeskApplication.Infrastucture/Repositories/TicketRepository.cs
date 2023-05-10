@@ -24,6 +24,9 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Ticket>> GetAll()
+      => await _dbContext.Tickets.ToListAsync();
+
         public async Task<Domain.Entities.Ticket?> GetByTitle(string title)
         =>  await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());
     }

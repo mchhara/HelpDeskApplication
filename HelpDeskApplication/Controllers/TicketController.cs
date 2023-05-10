@@ -18,6 +18,12 @@ namespace HelpDeskApplication.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var tickets = await _ticketService.GetAll();
+            return View(tickets);
+        }
+
         [HttpPost]
         public async Task <IActionResult> Create(TicketDto ticket)
         {
@@ -27,7 +33,7 @@ namespace HelpDeskApplication.Controllers
             }
 
            await _ticketService.Create(ticket);
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
 
     }

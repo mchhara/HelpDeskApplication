@@ -13,6 +13,7 @@ namespace HelpDeskApplication.Application.Mappings
         public HelpDeskApplicationMappingProfile()
         {
             CreateMap<TicketDto, Domain.Entities.Ticket>();
+            CreateMap<Domain.Entities.Ticket, TicketDto>();
 
         }
 

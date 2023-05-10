@@ -1,0 +1,27 @@
+﻿@model IEnumerable<HelpDeskApplication.Application.Ticket.TicketDto>
+
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<h1>Tickets</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-secondary">Create New</a>
+</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="card m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@item.Title</h5>
+                <p class="card-text">@item.Description</p>
+               <a href="#" class="btn btn-primary">Details</a>
+               <a href="#" class="btn btn-outline-secondary">Edit</a>
+            </div>
+        </div>
+    }
+
+</div>
+
+    
