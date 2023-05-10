@@ -21,6 +21,11 @@ namespace HelpDeskApplication.Controllers
         [HttpPost]
         public async Task <IActionResult> Create(TicketDto ticket)
         {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+
            await _ticketService.Create(ticket);
             return RedirectToAction(nameof(Create));
         }
