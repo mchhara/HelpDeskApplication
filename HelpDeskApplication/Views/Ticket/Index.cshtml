@@ -16,7 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title">@item.Title</h5>
                 <p class="card-text">@item.Description</p>
-               <a href="#" class="btn btn-primary">Details</a>
+               <a class="btn btn-primary" asp-controller="Ticket" asp-action="Details" asp-route-encodedName="@item.EncodedName">Details</a>
                <a href="#" class="btn btn-outline-secondary">Edit</a>
             </div>
         </div>
