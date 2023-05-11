@@ -1,39 +1,40 @@
-﻿using HelpDeskApplication.Application.Services;
-using HelpDeskApplication.Application.Ticket;
+﻿using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
+using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelpDeskApplication.Controllers
 {
     public class TicketController : Controller
     {
-        private readonly ITicketService _ticketService;
+        private readonly IMediator _mediator;
 
-        public TicketController(ITicketService ticketService)
+        public TicketController(IMediator mediator)
         {
-            _ticketService = ticketService;
+            _mediator = mediator;
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+        
         public async Task<IActionResult> Index()
         {
-            var tickets = await _ticketService.GetAll();
+            var tickets = await _mediator.Send(new GetAllTicketsQuery());
             return View(tickets);
         }
 
         [HttpPost]
-        public async Task <IActionResult> Create(TicketDto ticket)
+        public async Task <IActionResult> Create(CreateTicketCommand command)
         {
             if(!ModelState.IsValid)
             {
-                return View();
+                return View(command);
             }
 
-           await _ticketService.Create(ticket);
+           await _mediator.Send(command);
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Create()
+        {
+            return View();
         }
 
     }
