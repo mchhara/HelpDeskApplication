@@ -25,7 +25,10 @@ namespace HelpDeskApplication.Infrastucture.Repositories
         }
 
         public async Task<IEnumerable<Ticket>> GetAll()
-      => await _dbContext.Tickets.ToListAsync();
+        => await _dbContext.Tickets.ToListAsync();
+
+        public Task<Ticket> GetByEncodedName(string encodedName)
+        =>_dbContext.Tickets.FirstAsync(c => c.EncodedName == encodedName);
 
         public async Task<Domain.Entities.Ticket?> GetByTitle(string title)
         =>  await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());

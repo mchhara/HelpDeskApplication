@@ -1,5 +1,6 @@
 ﻿using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
+using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,5 +38,11 @@ namespace HelpDeskApplication.Controllers
             return View();
         }
 
+        [Route("Ticket/{encodedName}/Details")]
+        public async Task<IActionResult> Details(string encodedName)
+        {
+           var dto = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
+           return View(dto);
+        }
     }
 }
