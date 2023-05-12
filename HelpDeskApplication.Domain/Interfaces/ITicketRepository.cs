@@ -12,5 +12,6 @@ namespace HelpDeskApplication.Domain.Interfaces
         Task <Domain.Entities.Ticket?> GetByTitle(string title);
         Task<IEnumerable<Domain.Entities.Ticket>> GetAll(); 
         Task<Domain.Entities.Ticket> GetByEncodedName(string encodedName);
+        Task Commit();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HelpDeskApplication.Application.Ticket;
+using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace HelpDeskApplication.Application.Mappings
         {
             CreateMap<TicketDto, Domain.Entities.Ticket>();
             CreateMap<Domain.Entities.Ticket, TicketDto>();
-
+            CreateMap<TicketDto, EditTicketCommand>();
         }
 
     }
