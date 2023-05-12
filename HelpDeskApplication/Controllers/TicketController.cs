@@ -1,4 +1,6 @@
-﻿using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
+﻿using AutoMapper;
+using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
+using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
 using MediatR;
@@ -9,10 +11,12 @@ namespace HelpDeskApplication.Controllers
     public class TicketController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public TicketController(IMediator mediator)
+        public TicketController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         
@@ -43,6 +47,28 @@ namespace HelpDeskApplication.Controllers
         {
            var dto = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
            return View(dto);
+        }
+
+        [Route("Ticket/{encodedName}/Edit")]
+        public async Task<IActionResult> Edit(string encodedName)
+        {
+            var dto = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
+
+            EditTicketCommand model = _mapper.Map<EditTicketCommand>(dto);
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Ticket/{encodedName}/Edit")]
+        public async Task<IActionResult> Edit(string encodedName , EditTicketCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(command);
+            }
+
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

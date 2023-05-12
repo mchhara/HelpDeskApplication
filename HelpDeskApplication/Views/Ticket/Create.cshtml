@@ -23,7 +23,22 @@
             </div>
 
             <div class="form-group mb-3">
+                <label class="control-label" for="Priority">Priority level</label>
+                <select id="Priority" name="Priority" class="form-select" aria-label=".form-select-lg example">
+                    <option value="">-- Select Priority --</option>
+
+                    @foreach (var priority in Enum.GetValues(typeof(HelpDeskApplication.Domain.Entities.PriorityLevel)))
+                    {
+                        <option value="@priority">@priority</option>
+                    }
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
                 <input type="submit" value="Create" class="btn btn-primary">
+                |
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>

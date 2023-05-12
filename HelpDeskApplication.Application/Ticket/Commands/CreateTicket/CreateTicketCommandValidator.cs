@@ -27,6 +27,9 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
 
             RuleFor(c => c.Description)
                 .NotEmpty().WithMessage("Please enter description");
+
+            RuleFor(c => c.Priority)
+                 .NotNull().WithMessage("Please select priority level");
         }
     }
 }

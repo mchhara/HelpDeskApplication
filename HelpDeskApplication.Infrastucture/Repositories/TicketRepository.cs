@@ -18,6 +18,10 @@ namespace HelpDeskApplication.Infrastucture.Repositories
         {
             _dbContext = dbContext;
         }
+
+        public Task Commit()
+        => _dbContext.SaveChangesAsync();
+
         public async Task Create(Domain.Entities.Ticket ticket)
         {
             _dbContext.Add(ticket);
