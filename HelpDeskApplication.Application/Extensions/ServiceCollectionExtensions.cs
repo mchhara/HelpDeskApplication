@@ -1,7 +1,9 @@
 ﻿
 
+using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HelpDeskApplication.Application.ApplicationUser;
 using HelpDeskApplication.Application.Mappings;
 using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using MediatR;
@@ -13,9 +15,16 @@ namespace HelpDeskApplication.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
+            services.AddScoped<IUserContext,UserContext>();
             services.AddMediatR(typeof(CreateTicketCommand));
 
-            services.AddAutoMapper(typeof(HelpDeskApplicationMappingProfile));
+            services.AddScoped(provider => new MapperConfiguration(cfg =>
+            {
+                var scope = provider.CreateScope();
+                var userContext = scope.ServiceProvider.GetRequiredService<IUserContext>();
+                cfg.AddProfile(new HelpDeskApplicationMappingProfile(userContext));
+            }).CreateMapper()
+            );
             services.AddValidatorsFromAssemblyContaining<CreateTicketCommandValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();

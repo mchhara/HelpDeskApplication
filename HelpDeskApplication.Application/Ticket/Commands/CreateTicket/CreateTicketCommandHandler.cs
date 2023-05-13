@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HelpDeskApplication.Application.ApplicationUser;
 using HelpDeskApplication.Domain.Interfaces;
 using MediatR;
 using System;
@@ -13,11 +14,13 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
     {
         private readonly ITicketRepository _ticketRepository;
         private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
 
-        public CreateTicketCommandHandler(ITicketRepository ticketRepository, IMapper mapper)
+        public CreateTicketCommandHandler(ITicketRepository ticketRepository, IMapper mapper, IUserContext userContext)
         {
             _ticketRepository = ticketRepository;
             _mapper = mapper;
+            _userContext = userContext;
         }
 
      
@@ -26,6 +29,9 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
             var ticket = _mapper.Map<Domain.Entities.Ticket>(request);
 
             ticket.EncodeName();
+
+            ticket.CreateById = _userContext.GetCurrentUser().Id;
+
             await _ticketRepository.Create(ticket);
 
             return Unit.Value;

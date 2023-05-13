@@ -4,6 +4,7 @@ using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelpDeskApplication.Controllers
@@ -27,6 +28,7 @@ namespace HelpDeskApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task <IActionResult> Create(CreateTicketCommand command)
         {
             if(!ModelState.IsValid)
@@ -34,9 +36,10 @@ namespace HelpDeskApplication.Controllers
                 return View(command);
             }
 
-           await _mediator.Send(command);
+            await _mediator.Send(command);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +56,11 @@ namespace HelpDeskApplication.Controllers
         public async Task<IActionResult> Edit(string encodedName)
         {
             var dto = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
+
+            if (!dto.IsEditable)
+            {
+                return RedirectToAction("NoAccess", "Home");
+            }
 
             EditTicketCommand model = _mapper.Map<EditTicketCommand>(dto);
             return View(model);

@@ -15,5 +15,6 @@ namespace HelpDeskApplication.Application.Ticket
         public DateTime? ClosedAt { get; set; }
         public PriorityLevel Priority { get; set; }
         public string? EncodedName { get;  set; }
+        public bool IsEditable { get; set; }
     }
 }

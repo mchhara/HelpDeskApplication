@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace HelpDeskApplication.Domain.Entities
         public DateTime? ClosedAt { get; set; }
         public TicketStatus Status { get; set; } = TicketStatus.Open;
         public PriorityLevel Priority { get; set; }
+        public string? CreateById { get; set; }
+        public IdentityUser? CreateBy { get; set; }
         public List<TicketComments>? Comments { get; set; }
         public string EncodedName { get; private set; } = default!;
 
