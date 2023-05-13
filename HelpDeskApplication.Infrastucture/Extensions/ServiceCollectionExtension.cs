@@ -1,7 +1,9 @@
 ﻿using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
+using HelpDeskApplication.Infrastucture.Migrations;
 using HelpDeskApplication.Infrastucture.Repositories;
 using HelpDeskApplication.Infrastucture.Seeders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +21,9 @@ namespace HelpDeskApplication.Infrastucture.Extensions
         {
             services.AddDbContext<HelpDeskApplicationDbContext>(options => options.UseSqlServer(
                 configuration.GetConnectionString("HelpDeskApplication")));
+
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<HelpDeskApplicationDbContext>();
 
             services.AddScoped<HelpDeskApplicationSeeder>();
 
