@@ -1,6 +1,5 @@
 ﻿using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
-using HelpDeskApplication.Infrastucture.Migrations;
 using HelpDeskApplication.Infrastucture.Repositories;
 using HelpDeskApplication.Infrastucture.Seeders;
 using Microsoft.AspNetCore.Identity;
