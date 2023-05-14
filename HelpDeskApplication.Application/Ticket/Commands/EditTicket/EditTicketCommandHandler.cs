@@ -24,7 +24,7 @@ namespace HelpDeskApplication.Application.Ticket.Commands.EditTicket
             var ticket = await _ticketRepository.GetByEncodedName(request.EncodedName!);
 
             var user = _userContext.GetCurrentUser();
-            var isEditable = user != null && ticket.CreateById == user.Id;
+            var isEditable = user != null && (ticket.CreateById == user.Id || user.IsInRole("Technician"));
 
             if(!isEditable)
             {

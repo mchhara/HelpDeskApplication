@@ -22,6 +22,7 @@ namespace HelpDeskApplication.Infrastucture.Extensions
                 configuration.GetConnectionString("HelpDeskApplication")));
 
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<HelpDeskApplicationDbContext>();
 
             services.AddScoped<HelpDeskApplicationSeeder>();

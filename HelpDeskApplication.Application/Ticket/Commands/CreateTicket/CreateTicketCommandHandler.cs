@@ -25,12 +25,18 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
 
      
         public async Task<Unit> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
-        {
+        {   
+            var currentUser = _userContext.GetCurrentUser();
+            if(currentUser == null || !currentUser.IsInRole("User")) 
+            {
+                return Unit.Value;
+            }
+
             var ticket = _mapper.Map<Domain.Entities.Ticket>(request);
 
             ticket.EncodeName();
 
-            ticket.CreateById = _userContext.GetCurrentUser().Id;
+            ticket.CreateById = currentUser.Id;
 
             await _ticketRepository.Create(ticket);
 

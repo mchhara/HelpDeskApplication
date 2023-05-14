@@ -18,7 +18,8 @@ namespace HelpDeskApplication.Application.Mappings
 
             CreateMap<TicketDto, Domain.Entities.Ticket>();
             CreateMap<Domain.Entities.Ticket, TicketDto>()
-                .ForMember(dto => dto.IsEditable, opt => opt.MapFrom(src => user != null && src.CreateById == user.Id));
+                .ForMember(dto => dto.IsEditable, opt => opt.MapFrom(src => user != null 
+                                                    && (src.CreateById == user.Id || user.IsInRole("Technician"))));
             CreateMap<TicketDto, EditTicketCommand>();
         }
 
