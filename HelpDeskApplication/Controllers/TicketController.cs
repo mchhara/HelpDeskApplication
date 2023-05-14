@@ -28,7 +28,7 @@ namespace HelpDeskApplication.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task <IActionResult> Create(CreateTicketCommand command)
         {
             if(!ModelState.IsValid)
@@ -39,7 +39,7 @@ namespace HelpDeskApplication.Controllers
             await _mediator.Send(command);
             return RedirectToAction(nameof(Index));
         }
-        [Authorize]
+        [Authorize(Roles = "User")]
         public IActionResult Create()
         {
             return View();
