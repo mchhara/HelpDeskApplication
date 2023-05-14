@@ -3,6 +3,7 @@ using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
+using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,10 @@ namespace HelpDeskApplication.Controllers
                 return View(command);
             }
 
-            await _mediator.Send(command);
+            //await _mediator.Send(command);
+
+            this.SetNotification("success", $"Created ticket: {command.Title}");
+
             return RedirectToAction(nameof(Index));
         }
         [Authorize(Roles = "User")]
@@ -65,7 +69,7 @@ namespace HelpDeskApplication.Controllers
             EditTicketCommand model = _mapper.Map<EditTicketCommand>(dto);
             return View(model);
         }
-
+         
         [HttpPost]
         [Route("Ticket/{encodedName}/Edit")]
         public async Task<IActionResult> Edit(string encodedName , EditTicketCommand command)
@@ -76,6 +80,8 @@ namespace HelpDeskApplication.Controllers
             }
 
             await _mediator.Send(command);
+
+            this.SetNotification("success", $"Ticket: {command.Title} has been edited");
             return RedirectToAction(nameof(Index));
         }
     }
