@@ -28,6 +28,7 @@ namespace HelpDeskApplication.Infrastucture.Extensions
             services.AddScoped<HelpDeskApplicationSeeder>();
 
             services.AddScoped<ITicketRepository,TicketRepository>();
+            services.AddScoped<ITicketCommentRepository, TicketCommentRepository>();
         }
     }
 }

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelpDeskApplication.Domain.Entities
+namespace HelpDeskApplication.Application.TicketComment
 {
-    public class TicketComments
+    public class TicketCommentDto
     {
-        public int Id { get; set; }
         public string Text { get; set; } = default!;
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
     }
 }
