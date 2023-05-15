@@ -19,7 +19,7 @@ namespace HelpDeskApplication.Domain.Entities
         public PriorityLevel Priority { get; set; }
         public string? CreateById { get; set; }
         public IdentityUser? CreateBy { get; set; }
-        public List<TicketComments>? Comments { get; set; }
+        public List<TicketComment>? Comments { get; set; } = new();
         public string EncodedName { get; private set; } = default!;
 
         public void EncodeName() => EncodedName = Title.ToLower().Replace(" ", "-");

@@ -2,6 +2,7 @@
 using HelpDeskApplication.Application.ApplicationUser;
 using HelpDeskApplication.Application.Ticket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
+using HelpDeskApplication.Application.TicketComment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace HelpDeskApplication.Application.Mappings
                 .ForMember(dto => dto.IsEditable, opt => opt.MapFrom(src => user != null 
                                                     && (src.CreateById == user.Id || user.IsInRole("Technician"))));
             CreateMap<TicketDto, EditTicketCommand>();
+            CreateMap<TicketCommentDto, Domain.Entities.TicketComment>()
+                .ReverseMap();
         }
 
     }
