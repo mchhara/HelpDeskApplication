@@ -1,4 +1,35 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+const RenderTicketComments = (comments, container) => {
+    container.empty();
 
-// Write your JavaScript code.
+    for (const comment of comments) {
+        container.append(
+            `<div class="card border-secondary mb-3" style="max-width: 90rem;">
+          <div class="card-header">Comment</div>
+          <div class="card-body">
+            <h5 class="card-title">${comment.text}</h5> 
+          </div>
+        </div>`)
+    }
+}
+
+
+const LoadTicketComments = () => {
+    const container = $("#comments")
+    const ticketEncodedName = container.data("encodedName");
+
+    $.ajax({
+        url: `/Ticket/${ticketEncodedName}/TicketComment`,
+        type: 'get',
+        success: function (data) {
+            if (!data.length) {
+                container.html("There are no comments for this ticket yet.")
+            } else {
+                RenderTicketComments(data, container)
+            }
+        },
+        error: function () {
+            toastr["error"]("Something went wrong")
+        }
+    })
+}

@@ -1,14 +1,14 @@
-﻿@model HelpDeskApplication.Application.Ticket.TicketDto
+﻿@using HelpDeskApplication.Application.TicketComment.Commands;
+@model HelpDeskApplication.Application.Ticket.Queries.GetTicket.GetTicket
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Title Details</h1>
+<h1>Ticket: @Model.Title</h1>
 
 <div>
-    <h4>TicketDto</h4>
-    <hr />
+ 
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -25,11 +25,29 @@
     
     </dl>
 </div>
-<div>
+<div class="m3">
     @if (Model.IsEditable)
     {
         <a class="btn btn-outline-secondary" asp-controller="Ticket" asp-action="Edit" asp-route-encodedName="@Model.EncodedName">Edit</a>
     }
     |
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <br />
+    <br />
+    <partial name="_CreateTicketComment" model="new CreateTicketCommentCommand() {TicketEncodedName = Model.EncodedName }" />
 </div>
+
+<br />
+<h3>Comments:</h3>
+<br />
+<div id="comments" class="column" data-encoded-name="@Model.EncodedName" ></div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script src = "~/js/Ticket/Details.js"></script>
+
+    }
+
+}
