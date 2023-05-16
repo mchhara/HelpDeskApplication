@@ -2,7 +2,10 @@
 using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
+using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
+using HelpDeskApplication.Application.TicketComment.Commands;
+using HelpDeskApplication.Application.TicketComment.Queries.GetTicketComments;
 using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +40,7 @@ namespace HelpDeskApplication.Controllers
                 return View(command);
             }
 
-            //await _mediator.Send(command);
+            await _mediator.Send(command);
 
             this.SetNotification("success", $"Created ticket: {command.Title}");
 
@@ -53,7 +56,8 @@ namespace HelpDeskApplication.Controllers
         public async Task<IActionResult> Details(string encodedName)
         {
            var dto = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
-           return View(dto);
+           GetTicket model = _mapper.Map<GetTicket>(dto);
+           return View(model);
         }
 
         [Route("Ticket/{encodedName}/Edit")]
@@ -84,5 +88,30 @@ namespace HelpDeskApplication.Controllers
             this.SetNotification("success", $"Ticket: {command.Title} has been edited");
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Ticket/TicketComment")]
+        public async Task<IActionResult> CreateTicketComment(CreateTicketCommentCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _mediator.Send(command);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("Ticket/{encodedName}/TicketComment")]
+        public async Task<IActionResult> GetTicketComment(string encodedName)
+        {
+            var data = await _mediator.Send(new GetTicketCommentsQuery() { EncodedName = encodedName});
+            return Ok(data);
+        }
     }
 }
+
+

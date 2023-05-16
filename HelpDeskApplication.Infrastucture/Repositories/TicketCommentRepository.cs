@@ -1,6 +1,7 @@
 ﻿using HelpDeskApplication.Domain.Entities;
 using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,9 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<TicketComment>> GetAllByEncodedName(string encodedName)
+        => await _dbContext.Comments
+            .Where(s => s.Ticket.EncodedName == encodedName)
+            .ToListAsync();
     }
 }

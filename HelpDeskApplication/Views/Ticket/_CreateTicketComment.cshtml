@@ -1,0 +1,44 @@
+﻿@model HelpDeskApplication.Application.TicketComment.Commands.CreateTicketCommentCommand
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createTicketCommentModal">
+    Add ticket comment
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="createTicketCommentModal" tabindex="-1" aria-labelledby="createTicketCommentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form asp-action="CreateTicketComment">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createTicketCommentModalLabel">Create new comment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input asp-for="TicketEncodedName" class="form-control" type="hidden"/>
+
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" value="Create" class="btn btn-primary" data-bs-dismiss="modal">
+            </div>
+        </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
