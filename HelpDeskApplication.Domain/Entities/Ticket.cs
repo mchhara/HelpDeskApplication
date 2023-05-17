@@ -13,7 +13,7 @@ namespace HelpDeskApplication.Domain.Entities
         public int Id { get; set; }
         public string Title { get; set; } = default!;
         public string? Description { get; set; }
-        public DateTime CreatedAt { get; set; } 
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ClosedAt { get; set; }
         public TicketStatus Status { get; set; } = TicketStatus.Open;
         public PriorityLevel Priority { get; set; }

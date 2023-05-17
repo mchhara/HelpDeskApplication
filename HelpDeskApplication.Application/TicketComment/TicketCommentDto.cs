@@ -9,6 +9,7 @@ namespace HelpDeskApplication.Application.TicketComment
     public class TicketCommentDto
     {
         public string Text { get; set; } = default!;
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public string? UserEmail { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

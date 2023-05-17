@@ -27,13 +27,14 @@ namespace HelpDeskApplication.Application.TicketComment.Commands
         {
             var ticket = await _ticketRepository.GetByEncodedName(request.TicketEncodedName!);
 
-            var user = _userContext.GetCurrentUser(); // add logic comment created by User
+            var user = _userContext.GetCurrentUser();
           
 
             var ticketComment = new Domain.Entities.TicketComment()
             {
                 Text = request.Text,
-                TicketId = ticket.Id
+                TicketId = ticket.Id,
+                UserEmail = user?.Email
             };
 
             await _ticketCommentRepository.Create(ticketComment);

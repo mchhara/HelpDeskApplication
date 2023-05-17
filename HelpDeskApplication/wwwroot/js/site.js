@@ -5,7 +5,10 @@ const RenderTicketComments = (comments, container) => {
     for (const comment of comments) {
         container.append(
             `<div class="card border-secondary mb-3" style="max-width: 90rem;">
-          <div class="card-header">Comment</div>
+          <div class="card-header">Created by: <strong> ${comment.userEmail} </strong> 
+          <br> At: ${comment.dateCreated }
+          
+          </div>
           <div class="card-body">
             <h5 class="card-title">${comment.text}</h5> 
           </div>
@@ -17,6 +20,8 @@ const RenderTicketComments = (comments, container) => {
 const LoadTicketComments = () => {
     const container = $("#comments")
     const ticketEncodedName = container.data("encodedName");
+    const email = container.data("UserEmail");
+
 
     $.ajax({
         url: `/Ticket/${ticketEncodedName}/TicketComment`,
