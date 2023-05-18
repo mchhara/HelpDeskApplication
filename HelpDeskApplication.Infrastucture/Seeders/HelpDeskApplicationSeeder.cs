@@ -28,6 +28,7 @@ namespace HelpDeskApplication.Infrastucture.Seeders
                     {
                         Title = "Problem z Internetem",
                         Description ="Problem z internetem, żadne urządzenie w domu nie ma dostępu do internetu",
+                        CreatedAt = DateTime.UtcNow
                       
                     };
                     ticket.EncodeName();
