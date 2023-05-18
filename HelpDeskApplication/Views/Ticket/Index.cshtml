@@ -12,18 +12,34 @@
 <div class="row">
     @foreach (var item in Model)
     {
+
         <div class="card m-2" style="width: 18rem;">
+
+            
+            <div class="card-header">
+                <h5 class="card-title mb-3">Ticket: @item.Title</h5>
+            </div>
+
             <div class="card-body">
-                <h5 class="card-title mb-3">@item.Title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Created at: @item.CreatedAt.ToString("d") </h6>
-                <h6 class="card-subtitle mb-2 text-muted">Closed at: @item.ClosedAt?.ToString("d") </h6>
-                <p class="card-text">@item.Description</p>
+                <p class="card-subtitle mb-2 "> <strong> Created at:</strong> @item.CreatedAt.ToString("d") <br> by <strong> @item.UserEmail </strong> </p>
+                <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
+                    @if (item.ClosedAt == null)
+                    {
+                        <a>---</a>
+                    }
+                    @item.ClosedAt?.ToString("d")     
+                    </p>
+                <p class="card-subtitle mb-2 "> <strong> Priority: </strong> @item.Priority</p>
+            </div>
+
+            <div class="card-footer">
                 <a class="btn btn-primary" asp-controller="Ticket" asp-action="Details" asp-route-encodedName="@item.EncodedName">Details</a>
                 @if (item.IsEditable)
                 {
                     <a class="btn btn-outline-secondary" asp-controller="Ticket" asp-action="Edit" asp-route-encodedName="@item.EncodedName">Edit</a>
                 }
             </div>
+
         </div>
     }
 

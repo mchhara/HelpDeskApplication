@@ -37,6 +37,7 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
             ticket.EncodeName();
 
             ticket.CreateById = currentUser.Id;
+            ticket.UserEmail = currentUser.Email;
 
             await _ticketRepository.Create(ticket);
 
