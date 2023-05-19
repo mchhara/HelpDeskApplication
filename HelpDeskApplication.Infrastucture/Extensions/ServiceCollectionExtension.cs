@@ -29,6 +29,7 @@ namespace HelpDeskApplication.Infrastucture.Extensions
 
             services.AddScoped<ITicketRepository,TicketRepository>();
             services.AddScoped<ITicketCommentRepository, TicketCommentRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
