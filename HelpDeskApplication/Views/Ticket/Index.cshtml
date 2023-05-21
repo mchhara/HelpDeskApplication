@@ -26,7 +26,8 @@
             </div>
 
             <div class="card-body">
-                <p class="card-subtitle mb-2 "> <strong> Created at:</strong> @item.CreatedAt.ToString("d") <br> by <strong> @item.UserEmail </strong> </p>
+                <p class="card-subtitle mb-2 "> <strong> Created at:</strong> @item.CreatedAt.ToString("d") <br> by 
+                                                            <strong>@await mediator.Send(new GetUserNameFromTicket(item.CreateById))</strong> </p>
                 <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
                     @if (item.ClosedAt == null)
                     {
