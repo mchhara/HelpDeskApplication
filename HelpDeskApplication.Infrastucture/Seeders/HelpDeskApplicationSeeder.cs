@@ -78,6 +78,27 @@ namespace HelpDeskApplication.Infrastucture.Seeders
                     var userStore = new UserStore<IdentityUser>(_dbContext);
                     await userStore.CreateAsync(user);
                     await userStore.AddToRoleAsync(user, "USER");
+
+
+                    var user2 = new IdentityUser
+                    {
+                        UserName = "michalharasim444@onet.pl",
+                        NormalizedUserName = "michalharasim444@onet.pl",
+                        Email = "michalharasim444@onet.pl",
+                        NormalizedEmail = "michalharasim444@onet.pl",
+                        EmailConfirmed = false,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString()
+                    };
+
+                    var password2 = new PasswordHasher<IdentityUser>();
+                    var hashed2 = password2.HashPassword(user2, "www");
+                    user2.PasswordHash = hashed2;
+                    var userStore2 = new UserStore<IdentityUser>(_dbContext);
+                    await userStore2.CreateAsync(user2);
+                    await userStore2.AddToRoleAsync(user2, "Technician");
+
+
                     await _dbContext.SaveChangesAsync();
                 }
             }

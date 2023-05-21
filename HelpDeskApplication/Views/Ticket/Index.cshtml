@@ -1,4 +1,8 @@
-﻿@model IEnumerable<HelpDeskApplication.Application.Ticket.TicketDto>
+﻿@using HelpDeskApplication.Application.Ticket.Queries.GetTechnicianNameAssignedToTicket;
+@using MediatR;
+@using HelpDeskApplication.Application.Ticket.Queries;
+@model IEnumerable<HelpDeskApplication.Application.Ticket.TicketDto>
+@inject IMediator mediator
 
 @{
     ViewData["Title"] = "Tickets";
@@ -18,7 +22,7 @@
             
             <div class="card-header">
                 <h4 class="card-title mb-3">Ticket: <u>@item.Title</u></h4>
-                <p class="card-subtitle mb-2 ">Assigned to: <strong> @item.AssignedToUserEmail </strong></p>
+                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserNameFromTicket(item.AssignedToId))</strong></p>
             </div>
 
             <div class="card-body">

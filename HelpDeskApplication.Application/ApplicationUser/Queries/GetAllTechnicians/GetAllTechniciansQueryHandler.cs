@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace HelpDeskApplication.Application.ApplicationUser.Queries
+namespace HelpDeskApplication.Application.ApplicationUser.Queries.GetAllTechnicians
 {
     public class GetAllTechniciansQueryHandler : IRequestHandler<GetAllTechniciansQuery, IEnumerable<IdentityUser>>
     {
@@ -26,10 +26,10 @@ namespace HelpDeskApplication.Application.ApplicationUser.Queries
         public async Task<IEnumerable<IdentityUser>> Handle(GetAllTechniciansQuery request, CancellationToken cancellationToken)
         {
 
-            var tickets = await _userRepository.GetAllTechnicians();
-            var dtos = _mapper.Map<IEnumerable<IdentityUser>>(tickets);
+            var technicians = await _userRepository.GetAllTechnicians();
+            var dtos = _mapper.Map<IEnumerable<IdentityUser>>(technicians);
 
             return dtos;
         }
-    }
+    } 
 }

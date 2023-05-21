@@ -32,7 +32,12 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return technicians;
         }
 
+        public async Task<IdentityUser> GetUserNameFromTicket(string userId)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(e => e.Id == userId);
 
+            return user;
+        }
 
     }
 }
