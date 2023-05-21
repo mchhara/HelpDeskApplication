@@ -10,5 +10,7 @@ namespace HelpDeskApplication.Domain.Interfaces
     public interface IUserRepository
     {
         Task<List<IdentityUser>> GetAllTechnicians();
+        Task<IdentityUser> GetUserNameFromTicket(string userId);
+
     }
 }

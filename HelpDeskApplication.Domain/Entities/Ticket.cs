@@ -21,7 +21,6 @@ namespace HelpDeskApplication.Domain.Entities
         public string? CreateById { get; set; }
         public IdentityUser? CreateBy { get; set; }
         public List<TicketComment>? Comments { get; set; } = new();
-        public string? AssignedToUserEmail { get; set; }
         public string? AssignedToId { get; set; }
         public IdentityUser? AssignedTo { get; set; }
         public string EncodedName { get; private set; } = default!;

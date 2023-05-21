@@ -14,7 +14,7 @@ namespace HelpDeskApplication.Application.Ticket
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ClosedAt { get; set; }
         public string? UserEmail { get; set; }
-        public string? AssignedToUserEmail { get; set; }
+        public string? AssignedToId { get; set; }
         public PriorityLevel Priority { get; set; }
         public string? EncodedName { get;  set; }
         public bool IsEditable { get; set; }
