@@ -6,10 +6,13 @@ using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
 using HelpDeskApplication.Application.TicketComment.Commands;
 using HelpDeskApplication.Application.TicketComment.Queries.GetTicketComments;
+using HelpDeskApplication.Domain.Entities;
+using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HelpDeskApplication.Controllers
 {
@@ -17,14 +20,37 @@ namespace HelpDeskApplication.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ITicketRepository _ticketRepository;
 
-        public TicketController(IMediator mediator, IMapper mapper)
+        public TicketController(IMediator mediator, IMapper mapper, ITicketRepository ticketRepository)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _ticketRepository = ticketRepository;
         }
 
-        
+        [HttpPost]
+        [Authorize(Roles = "Technician")]
+        [Route("Ticket/{encodedName}/Close")]
+        public async Task<IActionResult> Close(string encodedName)
+        {
+            var ticket = await _ticketRepository.GetByEncodedName(encodedName);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            ticket.Status = TicketStatus.Closed;
+            ticket.ClosedAt = DateTime.UtcNow;
+            await _ticketRepository.Commit();
+
+
+            this.SetNotification("success", "Ticket closed");
+
+            return RedirectToAction("Index");
+        }
+
+
         public async Task<IActionResult> Index()
         {
             var tickets = await _mediator.Send(new GetAllTicketsQuery());

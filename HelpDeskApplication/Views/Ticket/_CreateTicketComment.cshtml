@@ -26,6 +26,10 @@
                 <input asp-for="Text" class="form-control" />
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
+                    <div>
+                        <label asp-for="HaveSolution" class="control-label">Is Solution</label>
+                        <input type="checkbox" asp-for="HaveSolution" />
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -39,6 +43,3 @@
 
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
