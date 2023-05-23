@@ -36,5 +36,11 @@ namespace HelpDeskApplication.Infrastucture.Repositories
 
         public async Task<Domain.Entities.Ticket?> GetByTitle(string title)
         =>  await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());
+
+        public async Task HaveSolutionTicketUpdate(Domain.Entities.Ticket ticket)
+        {
+            _dbContext.Attach(ticket);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

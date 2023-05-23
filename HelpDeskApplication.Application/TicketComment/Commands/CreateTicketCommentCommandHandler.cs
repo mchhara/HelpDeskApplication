@@ -37,6 +37,14 @@ namespace HelpDeskApplication.Application.TicketComment.Commands
                 UserEmail = user?.Email
             };
 
+            if (request.HaveSolution)
+            {
+                ticket.HaveSolution = true;
+                await _ticketRepository.HaveSolutionTicketUpdate(ticket); 
+            }
+
+
+
             await _ticketCommentRepository.Create(ticketComment);
 
             return Unit.Value;

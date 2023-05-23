@@ -26,15 +26,16 @@
             </div>
 
             <div class="card-body">
-                <p class="card-subtitle mb-2 "> <strong> Created at:</strong> @item.CreatedAt.ToString("d") <br> by 
-                                                            <strong>@await mediator.Send(new GetUserNameFromTicket(item.CreateById))</strong> </p>
+                <p class="card-subtitle mb-2 ">
+                    <strong> Created at:</strong> @item.CreatedAt.ToString("dd.MM.yyyy H:mm") <br> by
+                    <strong>@await mediator.Send(new GetUserNameFromTicket(item.CreateById))</strong> </p>
                 <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
                     @if (item.ClosedAt == null)
                     {
                         <a>---</a>
                     }
-                    @item.ClosedAt?.ToString("d")     
-                    </p>
+                    @item.ClosedAt?.ToString("dd.MM.yyyy H:mm")
+                </p>
                 <p class="card-subtitle mb-2 "> <strong> Priority: </strong> @item.Priority</p>
             </div>
 

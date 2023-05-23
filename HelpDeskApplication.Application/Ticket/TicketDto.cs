@@ -13,6 +13,8 @@ namespace HelpDeskApplication.Application.Ticket
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? ClosedAt { get; set; }
+        public TicketStatus Status { get; set; }
+        public bool HaveSolution { get; set; }
         public string? CreateById { get; set; }
         public string? AssignedToId { get; set; }
         public PriorityLevel Priority { get; set; }

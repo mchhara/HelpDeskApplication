@@ -6,7 +6,7 @@ const RenderTicketComments = (comments, container) => {
 
         const dateCreated = new Date(comment.dateCreated).toLocaleString();
         container.append(
-            `<div class="card border-secondary mb-3" style="max-width: 90rem;">
+            `<div class="card text-white bg-secondary mb-3" style="max-width: 90rem;">
           <div class="card-header">Created by: <strong> ${comment.userEmail} </strong> 
           <br> At: <strong> ${dateCreated } </strong> 
           

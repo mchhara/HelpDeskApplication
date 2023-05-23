@@ -17,6 +17,7 @@ namespace HelpDeskApplication.Domain.Entities
         public DateTime? ClosedAt { get; set; }
         public TicketStatus Status { get; set; } = TicketStatus.Open;
         public PriorityLevel Priority { get; set; }
+        public bool HaveSolution { get; set; } 
         public string? CreateById { get; set; }
         public IdentityUser? CreateBy { get; set; }
         public List<TicketComment>? Comments { get; set; } = new();
