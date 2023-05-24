@@ -55,6 +55,10 @@
 @if (Model.HaveSolution && Model.Status == TicketStatus.Closed)
 {
     <h2>Ticket is closed.</h2>
+
+    <form method="post" action="/Ticket/@Model.EncodedName/Resume">
+        <button type="submit" class="btn btn-secondary">Resume Ticket</button>
+    </form>
 }
 
 

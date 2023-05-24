@@ -13,7 +13,6 @@ namespace HelpDeskApplication.Domain.Entities
         public string Text { get; set; } = default!;
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
         public string? UserEmail { get; set; }
-        public string? CreateById { get; set; }
         public IdentityUser? CreateBy { get; set; }
         public int TicketId { get; set; } = default!;
         public Ticket Ticket { get; set; } = default!;
