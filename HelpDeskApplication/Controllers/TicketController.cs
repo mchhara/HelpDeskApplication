@@ -50,6 +50,28 @@ namespace HelpDeskApplication.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Technician")]
+        [Route("Ticket/{encodedName}/Resume")]
+        public async Task<IActionResult> Resume(string encodedName)
+        {
+            var ticket = await _ticketRepository.GetByEncodedName(encodedName);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            ticket.Status = TicketStatus.Open;
+            ticket.ClosedAt = null;
+            ticket.HaveSolution = false;
+            await _ticketRepository.Commit();
+
+
+            this.SetNotification("success", "Ticket resume");
+
+            return RedirectToAction("Index");
+        }
+
 
         public async Task<IActionResult> Index()
         {
