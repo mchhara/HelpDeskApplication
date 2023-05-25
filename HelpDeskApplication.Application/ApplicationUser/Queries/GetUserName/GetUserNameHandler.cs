@@ -8,19 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelpDeskApplication.Application.Ticket.Queries.GetTechnicianNameAssignedToTicket
+namespace HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket
 {
-    public class GetUserNameFromTicketHandler: IRequestHandler<GetUserNameFromTicket, string>
+    public class GetUserNameHandler : IRequestHandler<GetUserName, string>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserNameFromTicketHandler(IUserRepository userRepository)
+        public GetUserNameHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-        public async Task<string> Handle(GetUserNameFromTicket request, CancellationToken cancellationToken)
+        public async Task<string> Handle(GetUserName request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserNameFromTicket(request.UserId);
+            var user = await _userRepository.GetUserName(request.UserId);
 
             var userName = user?.UserName;
 

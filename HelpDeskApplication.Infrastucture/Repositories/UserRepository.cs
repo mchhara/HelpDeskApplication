@@ -3,11 +3,7 @@ using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HelpDeskApplication.Infrastucture.Repositories
 {
@@ -32,11 +28,11 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return technicians;
         }
 
-        public async Task<IdentityUser> GetUserNameFromTicket(string userId)
+        public async Task<IdentityUser> GetUserName(string userId)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(e => e.Id == userId);
 
-            return user;
+            return user!;
         }
 
     }
