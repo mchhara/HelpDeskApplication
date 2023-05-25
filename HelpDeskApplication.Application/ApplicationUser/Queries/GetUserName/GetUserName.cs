@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelpDeskApplication.Application.Ticket.Queries.GetTechnicianNameAssignedToTicket
+namespace HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket
 {
-    public class GetUserNameFromTicket : IRequest<string>
+    public class GetUserName : IRequest<string>
     {
         public string UserId { get; set; }
 
-        public GetUserNameFromTicket(string userId)
+        public GetUserName(string userId)
         {
             UserId = userId;
         }

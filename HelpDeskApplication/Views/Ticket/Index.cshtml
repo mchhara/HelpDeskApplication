@@ -1,4 +1,4 @@
-﻿@using HelpDeskApplication.Application.Ticket.Queries.GetTechnicianNameAssignedToTicket;
+﻿@using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket;
 @using MediatR;
 @using HelpDeskApplication.Application.Ticket.Queries;
 @model IEnumerable<HelpDeskApplication.Application.Ticket.TicketDto>
@@ -22,13 +22,13 @@
             
             <div class="card-header">
                 <h4 class="card-title mb-3">Ticket: <u>@item.Title</u></h4>
-                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserNameFromTicket(item.AssignedToId))</strong></p>
+                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserName(item.AssignedToId))</strong></p>
             </div>
 
             <div class="card-body">
                 <p class="card-subtitle mb-2 ">
                     <strong> Created at:</strong> @item.CreatedAt.ToString("dd.MM.yyyy H:mm") <br> by
-                    <strong>@await mediator.Send(new GetUserNameFromTicket(item.CreateById))</strong> </p>
+                    <strong>@await mediator.Send(new GetUserName(item.CreateById))</strong> </p>
                 <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
                     @if (item.ClosedAt == null)
                     {
