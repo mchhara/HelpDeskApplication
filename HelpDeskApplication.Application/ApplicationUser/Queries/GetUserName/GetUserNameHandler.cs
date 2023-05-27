@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
 using HelpDeskApplication.Domain.Interfaces;
 using MediatR;
 using System;

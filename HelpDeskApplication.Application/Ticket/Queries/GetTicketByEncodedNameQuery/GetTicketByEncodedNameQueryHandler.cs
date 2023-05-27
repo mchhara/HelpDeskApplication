@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using HelpDeskApplication.Application.Ticket.Commands.CloseTicketByEncodedName;
+using HelpDeskApplication.Domain.Entities;
 using HelpDeskApplication.Domain.Interfaces;
 using MediatR;
 using System;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName
+namespace HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedNameQuery
 {
     public class GetTicketByEncodedNameQueryHandler : IRequestHandler<GetTicketByEncodedNameQuery, TicketDto>
     {
@@ -22,9 +24,9 @@ namespace HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName
         public async Task<TicketDto> Handle(GetTicketByEncodedNameQuery request, CancellationToken cancellationToken)
         {
             var ticket = await _ticketRepository.GetByEncodedName(request.EncodedName);
-          
+
             var dto = _mapper.Map<TicketDto>(ticket);
-           
+
             return dto;
         }
     }

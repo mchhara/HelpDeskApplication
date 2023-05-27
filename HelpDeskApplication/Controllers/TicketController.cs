@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using HelpDeskApplication.Application.Ticket;
+using HelpDeskApplication.Application.Ticket.Commands.CloseTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
+using HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName;
+using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
-using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName;
+using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedNameQuery;
 using HelpDeskApplication.Application.TicketComment.Commands;
 using HelpDeskApplication.Application.TicketComment.Queries.GetTicketComments;
 using HelpDeskApplication.Domain.Entities;
@@ -12,7 +16,6 @@ using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HelpDeskApplication.Controllers
 {
@@ -20,13 +23,11 @@ namespace HelpDeskApplication.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ITicketRepository _ticketRepository;
 
-        public TicketController(IMediator mediator, IMapper mapper, ITicketRepository ticketRepository)
+        public TicketController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _ticketRepository = ticketRepository;
         }
 
         [HttpPost]
@@ -34,16 +35,12 @@ namespace HelpDeskApplication.Controllers
         [Route("Ticket/{encodedName}/Close")]
         public async Task<IActionResult> Close(string encodedName)
         {
-            var ticket = await _ticketRepository.GetByEncodedName(encodedName);
+            var ticket = await _mediator.Send(new CloseTicketByEncodedNameCommand(encodedName));
+
             if (ticket == null)
             {
                 return NotFound();
             }
-
-            ticket.Status = TicketStatus.Closed;
-            ticket.ClosedAt = DateTime.UtcNow;
-            await _ticketRepository.Commit();
-
 
             this.SetNotification("success", "Ticket closed");
 
@@ -55,30 +52,33 @@ namespace HelpDeskApplication.Controllers
         [Route("Ticket/{encodedName}/Resume")]
         public async Task<IActionResult> Resume(string encodedName)
         {
-            var ticket = await _ticketRepository.GetByEncodedName(encodedName);
+            var ticket = await _mediator.Send(new ResumeTicketByEncodedNameCommand(encodedName));
+
             if (ticket == null)
             {
                 return NotFound();
             }
-
-            ticket.Status = TicketStatus.Open;
-            ticket.ClosedAt = null;
-            ticket.HaveSolution = false;
-            await _ticketRepository.Commit();
-
 
             this.SetNotification("success", "Ticket resume");
 
             return RedirectToAction("Index");
         }
 
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string statusFilter)
         {
-            var tickets = await _mediator.Send(new GetAllTicketsQuery());
-            return View(tickets);
-        }
+            var allTickets = await _mediator.Send(new GetAllTicketsQuery());
 
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+
+                allTickets = await _mediator.Send(new GetAllTicketByFilterQuery(statusFilter));
+
+            }
+            ViewBag.Filter = statusFilter;
+
+            return View(allTickets);
+        }
+    
         [HttpPost]
         [Authorize(Roles = "User")]
         public async Task <IActionResult> Create(CreateTicketCommand command)
