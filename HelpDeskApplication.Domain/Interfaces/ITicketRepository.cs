@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpDeskApplication.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace HelpDeskApplication.Domain.Interfaces
         Task<Domain.Entities.Ticket> GetByEncodedName(string encodedName);
         Task Commit();
         Task HaveSolutionTicketUpdate (Domain.Entities.Ticket ticket);
+        Task<IEnumerable<Ticket>> GetTicketsByStatus(string status);
     }
 }

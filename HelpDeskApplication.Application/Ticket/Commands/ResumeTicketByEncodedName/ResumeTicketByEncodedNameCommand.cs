@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedName
+namespace HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName
 {
-    public class GetTicketByEncodedNameQuery : IRequest<TicketDto>
+    public class ResumeTicketByEncodedNameCommand : IRequest<TicketDto>
     {
         public string EncodedName { get; set; }
 
-        public GetTicketByEncodedNameQuery(string encodedName)
+        public ResumeTicketByEncodedNameCommand(string encodedName)
         {
             EncodedName = encodedName;
         }

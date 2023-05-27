@@ -6,6 +6,7 @@
 
 @{
     ViewData["Title"] = "Tickets";
+    string filterValue = ViewData["Filter"]?.ToString();
 }
 
 <h1>Tickets</h1>
@@ -13,6 +14,20 @@
 <p>
     <a asp-action="Create" class="btn btn-secondary">Create New</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="statusFilter">Status Filter:</label>
+        <select id="statusFilter" name="statusFilter" class="form-control">
+            <option value="">All</option>
+            <option value="Open" selected="@(filterValue == "Open")">Open</option>
+            <option value="Closed" selected="@(filterValue == "Closed")">Closed</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+
 <div class="row">
     @foreach (var item in Model)
     {

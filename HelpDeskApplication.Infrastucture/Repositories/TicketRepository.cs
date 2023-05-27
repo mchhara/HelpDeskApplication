@@ -4,6 +4,7 @@ using HelpDeskApplication.Infrastucture.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,5 +43,20 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             _dbContext.Attach(ticket);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Ticket>> GetTicketsByStatus(string status)
+        {
+            if (string.IsNullOrEmpty(status))
+            {
+                return await _dbContext.Tickets.ToListAsync();
+            }
+            if (Enum.TryParse<TicketStatus>(status, true, out var ticketStatus))
+            {
+                return await _dbContext.Tickets.Where(t => t.Status == ticketStatus).ToListAsync();
+            }
+
+            return Enumerable.Empty<Ticket>();
+        }
+
     }
 }
