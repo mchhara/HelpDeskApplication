@@ -6,7 +6,7 @@
 
 @{
     ViewData["Title"] = "Tickets";
-    string filterValue = ViewData["Filter"]?.ToString();
+    string? filterValue = ViewData["Filter"]?.ToString();
 }
 
 <h1>Tickets</h1>
@@ -26,7 +26,15 @@
     </div>
     <button type="submit" class="btn btn-primary">Filter</button>
 </form>
+<br />
 
+    <div class="card-header">
+    <a> Sort by:</a>
+
+    <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-statusFilter="@ViewBag.Filter">Title</a>
+    <a asp-action="Index" asp-route-sortOrder="@ViewData["PrioritySortParm"]" asp-route-statusFilter="@ViewBag.Filter">Priority</a>
+    <a asp-action="Index" asp-route-sortOrder="@ViewData["StatusSortParm"]" asp-route-statusFilter="@ViewBag.Filter">Status</a>
+</div>
 
 <div class="row">
     @foreach (var item in Model)
@@ -37,13 +45,13 @@
             
             <div class="card-header">
                 <h4 class="card-title mb-3">Ticket: <u>@item.Title</u></h4>
-                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserName(item.AssignedToId))</strong></p>
+                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserName(item.AssignedToId!))</strong></p>
             </div>
 
             <div class="card-body">
                 <p class="card-subtitle mb-2 ">
                     <strong> Created at:</strong> @item.CreatedAt.ToString("dd.MM.yyyy H:mm") <br> by
-                    <strong>@await mediator.Send(new GetUserName(item.CreateById))</strong> </p>
+                    <strong>@await mediator.Send(new GetUserName(item.CreateById!))</strong> </p>
                 <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
                     @if (item.ClosedAt == null)
                     {
@@ -66,5 +74,4 @@
     }
 
 </div>
-
     

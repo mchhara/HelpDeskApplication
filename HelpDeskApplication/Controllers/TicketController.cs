@@ -63,9 +63,13 @@ namespace HelpDeskApplication.Controllers
 
             return RedirectToAction("Index");
         }
-
-        public async Task<IActionResult> Index(string statusFilter)
+        
+        public async Task<IActionResult> Index(string statusFilter, string sortOrder)
         {
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Title" : "";
+            ViewData["PrioritySortParm"] = String.IsNullOrEmpty(sortOrder) ? "Priority" : "";
+            ViewData["StatusSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Status" : "";
+
             var allTickets = await _mediator.Send(new GetAllTicketsQuery());
 
             if (!string.IsNullOrEmpty(statusFilter))
@@ -74,9 +78,27 @@ namespace HelpDeskApplication.Controllers
                 allTickets = await _mediator.Send(new GetAllTicketByFilterQuery(statusFilter));
 
             }
-            ViewBag.Filter = statusFilter;
+            
+            switch (sortOrder)
+            {
+                case "Title":
+                    allTickets = allTickets.OrderBy(s => s.Title);
+                    break;
+                case "Priority":
+                    allTickets = allTickets.OrderByDescending(s => s.Priority);
+                    break;
+                case "Status":
+                    allTickets = allTickets.OrderBy(s => s.Status);
+                    break;
+                default:
+                    allTickets = allTickets.OrderBy(s => s.CreatedAt);
+                    break;
+            }
 
-            return View(allTickets);
+            ViewBag.Filter = statusFilter;
+            ViewBag.SortOrder = sortOrder;
+
+            return View( allTickets);
         }
     
         [HttpPost]
