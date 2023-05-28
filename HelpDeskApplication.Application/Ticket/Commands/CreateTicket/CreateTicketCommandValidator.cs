@@ -29,7 +29,7 @@ namespace HelpDeskApplication.Application.Ticket.Commands.CreateTicket
                 .NotEmpty().WithMessage("Please enter description");
 
             RuleFor(c => c.Priority)
-                 .NotEmpty().WithMessage("Please select priority level");
+                 .NotNull().WithMessage("Please select priority level");
 
             RuleFor(c => c.AssignedToId)
                 .NotEmpty().WithMessage("Assign technician to ticket");
