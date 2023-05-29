@@ -33,10 +33,10 @@ namespace HelpDeskApplication.Infrastucture.Repositories
         => await _dbContext.Tickets.ToListAsync();
 
         public Task<Ticket> GetByEncodedName(string encodedName)
-        =>_dbContext.Tickets.FirstAsync(c => c.EncodedName == encodedName);
+        => _dbContext.Tickets.FirstAsync(c => c.EncodedName == encodedName);
 
         public async Task<Domain.Entities.Ticket?> GetByTitle(string title)
-        =>  await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());
+        => await _dbContext.Tickets.FirstOrDefaultAsync(t => t.Title.ToLower() == title.ToLower());
 
         public async Task HaveSolutionTicketUpdate(Domain.Entities.Ticket ticket)
         {
@@ -58,5 +58,16 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return Enumerable.Empty<Ticket>();
         }
 
+        public async Task<IEnumerable<Ticket>> GetTicketsBySearchName(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                return await _dbContext.Tickets.ToListAsync();
+            }
+
+            var result = await _dbContext.Tickets.Where(t => t.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+
+            return result;
+        }
     }
 }
