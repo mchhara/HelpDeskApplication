@@ -5,13 +5,12 @@ using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
+using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketBySearchTitle;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedNameQuery;
 using HelpDeskApplication.Application.TicketComment.Commands;
 using HelpDeskApplication.Application.TicketComment.Queries.GetTicketComments;
-using HelpDeskApplication.Domain.Entities;
-using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -64,21 +63,27 @@ namespace HelpDeskApplication.Controllers
             return RedirectToAction("Index");
         }
         
-        public async Task<IActionResult> Index(string statusFilter, string sortOrder)
+        public async Task<IActionResult> Index(string statusFilter, string sortOrder, string searchString)
         {
             ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Title" : "";
             ViewData["PrioritySortParm"] = String.IsNullOrEmpty(sortOrder) ? "Priority" : "";
             ViewData["StatusSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Status" : "";
+            ViewData["Search"] = searchString;
 
             var allTickets = await _mediator.Send(new GetAllTicketsQuery());
-
             if (!string.IsNullOrEmpty(statusFilter))
             {
 
                 allTickets = await _mediator.Send(new GetAllTicketByFilterQuery(statusFilter));
 
             }
-            
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                allTickets = await _mediator.Send(new GetAllTicketBySearchTitleQuery(searchString));
+            }
+
+
             switch (sortOrder)
             {
                 case "Title":
