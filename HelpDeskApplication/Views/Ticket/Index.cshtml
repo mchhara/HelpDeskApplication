@@ -1,8 +1,10 @@
 ﻿@using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket;
 @using MediatR;
 @using HelpDeskApplication.Application.Ticket.Queries;
+@using HelpDeskApplication.Domain.Entities;
 @model IEnumerable<HelpDeskApplication.Application.Ticket.TicketDto>
 @inject IMediator mediator
+
 
 @{
     ViewData["Title"] = "Tickets";
@@ -10,10 +12,8 @@
 }
 
 <h1>Tickets</h1>
+<br />
 
-<p>
-    <a asp-action="Create" class="btn btn-secondary">Create New</a>
-</p>
 
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
@@ -38,8 +38,12 @@
 </form>
 <br />
 
-    <div class="card-header">
-    <a> Sort by:</a>
+<a>
+    <a asp-action="Create" class="btn btn-secondary">Create new</a>
+</a>
+
+<div class="card-header" style="text-align: center">
+    <a> Sort by :</a>
 
     <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleSortParm"]" asp-route-statusFilter="@ViewBag.Filter">Title</a>
     <a asp-action="Index" asp-route-sortOrder="@ViewData["PrioritySortParm"]" asp-route-statusFilter="@ViewBag.Filter">Priority</a>
@@ -50,7 +54,8 @@
     @foreach (var item in Model)
     {
 
-        <div class="card m-2" style="width: 18rem;">
+        <div class="card m-2" style="width: 18rem; border-width: 4px; border-color: 
+                @(item.Priority == PriorityLevel.Low ? "green" : (item.Priority == PriorityLevel.Medium ? "orange" : "firebrick"))">
 
             
             <div class="card-header">
