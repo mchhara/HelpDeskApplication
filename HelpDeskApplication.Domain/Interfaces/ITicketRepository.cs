@@ -17,6 +17,8 @@ namespace HelpDeskApplication.Domain.Interfaces
         Task HaveSolutionTicketUpdate (Domain.Entities.Ticket ticket);
         Task<IEnumerable<Ticket>> GetTicketsByStatus(string status);
         Task<IEnumerable<Ticket>> GetTicketsBySearchName(string title);
-        
+        Task DeleteTicket(Ticket ticket);
+
+
     }
 }

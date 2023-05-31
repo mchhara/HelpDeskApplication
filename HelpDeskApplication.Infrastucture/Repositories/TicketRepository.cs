@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,6 +69,12 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             var result = await _dbContext.Tickets.Where(t => t.Title.ToLower().Contains(title.ToLower())).ToListAsync();
 
             return result;
+        }
+
+        public async Task DeleteTicket(Ticket ticket)
+        {
+            _dbContext.Tickets.Remove(ticket);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
