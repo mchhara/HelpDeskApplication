@@ -2,6 +2,7 @@
 using HelpDeskApplication.Application.Ticket;
 using HelpDeskApplication.Application.Ticket.Commands.CloseTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
+using HelpDeskApplication.Application.Ticket.Commands.DeleteTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
@@ -181,11 +182,30 @@ namespace HelpDeskApplication.Controllers
 
         [HttpGet]
         [Route("Ticket/{encodedName}/TicketComment")]
-        public async Task<IActionResult> GetTicketComment(string encodedName)
+        public async Task<IActionResult> GetTicketComments(string encodedName)
         {
             var data = await _mediator.Send(new GetTicketCommentsQuery() { EncodedName = encodedName});
             return Ok(data);
         }
+
+        [HttpPost]
+        [Route("Ticket/{encodedName}/Delete")]
+        public async Task<IActionResult> Delete(string encodedName)
+        {
+            var ticket = await _mediator.Send(new GetTicketByEncodedNameQuery(encodedName));
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            await _mediator.Send(new DeleteTicketCommand { EncodedName = encodedName });
+
+            this.SetNotification("success", "Ticket deleted");
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
 
