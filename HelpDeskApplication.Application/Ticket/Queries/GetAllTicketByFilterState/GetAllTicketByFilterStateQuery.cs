@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter
 {
-    public class GetAllTicketByFilterQuery : IRequest<IEnumerable<TicketDto>>
+    public class GetAllTicketByFilterStateQuery : IRequest<IEnumerable<TicketDto>>
     {
         public string Filter { get; set; }
 
-        public GetAllTicketByFilterQuery(string filter)
+        public GetAllTicketByFilterStateQuery(string filter)
         {
             Filter = filter;
         }

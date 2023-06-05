@@ -16,6 +16,7 @@ namespace HelpDeskApplication.Domain.Interfaces
         Task Commit();
         Task HaveSolutionTicketUpdate (Domain.Entities.Ticket ticket);
         Task<IEnumerable<Ticket>> GetTicketsByStatus(string status);
+        Task<IEnumerable<Ticket>> GetTicketsByCurrentUser(string userName);
         Task<IEnumerable<Ticket>> GetTicketsBySearchName(string title);
         Task DeleteTicket(Ticket ticket);
 
