@@ -6,6 +6,7 @@ using HelpDeskApplication.Application.Ticket.Commands.DeleteTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
+using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUser;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketBySearchTitle;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
@@ -74,9 +75,12 @@ namespace HelpDeskApplication.Controllers
             var allTickets = await _mediator.Send(new GetAllTicketsQuery());
             if (!string.IsNullOrEmpty(statusFilter))
             {
-
-                allTickets = await _mediator.Send(new GetAllTicketByFilterQuery(statusFilter));
-
+                if(statusFilter =="Open" || statusFilter =="Closed")
+                    allTickets = await _mediator.Send(new GetAllTicketByFilterStateQuery(statusFilter));
+                else
+                {
+                    allTickets = await _mediator.Send(new GetAllTicketByFilterUserQuery(statusFilter));
+                }
             }
 
             if (!string.IsNullOrEmpty(searchString))

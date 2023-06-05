@@ -6,20 +6,21 @@ using MediatR;
 
 namespace HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter
 {
-    public class GetAllTicketByFilterQueryHandler : IRequestHandler<GetAllTicketByFilterQuery, IEnumerable<TicketDto>>
+    public class GetAllTicketByFilterStateQueryHandler : IRequestHandler<GetAllTicketByFilterStateQuery, IEnumerable<TicketDto>>
     {
         private readonly ITicketRepository _ticketRepository;
         private readonly IMapper _mapper;
 
-        public GetAllTicketByFilterQueryHandler(ITicketRepository ticketRepository, IMapper mapper)
+        public GetAllTicketByFilterStateQueryHandler(ITicketRepository ticketRepository, IMapper mapper)
         {
             _ticketRepository = ticketRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TicketDto>> Handle(GetAllTicketByFilterQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TicketDto>> Handle(GetAllTicketByFilterStateQuery request, CancellationToken cancellationToken)
         {
-            var tickets = await _ticketRepository.GetTicketsByStatus(request.Filter); ;
+            var tickets = await _ticketRepository.GetTicketsByStatus(request.Filter);
+
             var dtos = _mapper.Map<IEnumerable<TicketDto>>(tickets);
 
             return dtos;
