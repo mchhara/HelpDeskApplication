@@ -79,6 +79,26 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<Ticket>> GetTicketsByCurrentTechnician(string technicianName)
+        {
+            if (string.IsNullOrEmpty(technicianName))
+            {
+                return await _dbContext.Tickets.ToListAsync();
+            }
+
+            var query = from ticket in _dbContext.Tickets
+                        join user in _dbContext.Users on ticket.AssignedToId equals user.Id
+                        where user.UserName == technicianName
+                        select ticket;
+
+            if (query == null)
+            {
+                return await _dbContext.Tickets.ToListAsync();
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<IEnumerable<Ticket>> GetTicketsBySearchName(string title)
         {
             if (string.IsNullOrEmpty(title))
