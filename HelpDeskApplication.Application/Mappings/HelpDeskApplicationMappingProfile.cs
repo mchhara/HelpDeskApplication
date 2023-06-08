@@ -4,6 +4,7 @@ using HelpDeskApplication.Application.Ticket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
 using HelpDeskApplication.Application.TicketComment;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace HelpDeskApplication.Application.Mappings
             CreateMap<TicketDto, GetTicket>();
             CreateMap<TicketCommentDto, Domain.Entities.TicketComment>()
                 .ReverseMap();
+            CreateMap<IdentityUser, UserDto>()
+                .ReverseMap();
+
         }
 
     }

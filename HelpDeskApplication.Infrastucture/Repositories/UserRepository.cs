@@ -35,5 +35,17 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return user!;
         }
 
+        public async Task<List<IdentityUser>> GetAllUsers()
+        {
+            var users = await (from userRole in _dbContext.UserRoles
+                                     join user in _dbContext.Users on userRole.UserId equals user.Id
+                                     join role in _dbContext.Roles on userRole.RoleId equals role.Id
+                                     where role.Name == "Technician" || role.Name == "User"
+                                     select user)
+                                     .ToListAsync();
+
+            return users;
+        }
+
     }
 }
