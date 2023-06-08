@@ -11,6 +11,6 @@ namespace HelpDeskApplication.Domain.Interfaces
     {
         Task<List<IdentityUser>> GetAllTechnicians();
         Task<IdentityUser> GetUserName(string userId);
-
+        Task<List<IdentityUser>> GetAllUsers();
     }
 }
