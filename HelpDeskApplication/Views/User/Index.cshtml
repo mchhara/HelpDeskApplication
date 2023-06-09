@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<HelpDeskApplication.Application.ApplicationUser.UserDto>
+@using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserRole
+@using MediatR
+@inject IMediator mediator
 
 <table class="table">
     <thead>
@@ -13,19 +16,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                @Html.ActionLink("Change Role", "ChangeRole", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @{
+                        var userRoleQuery = new GetUserRoleQuery(item.Email!);
+                        var userRoles = await mediator.Send(userRoleQuery);
+                        var rolesString = string.Join(", ", userRoles);
+                    }
+                    @rolesString
+                </td>
+                <td>
+                    @Html.ActionLink("Change Role", "ChangeRole", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

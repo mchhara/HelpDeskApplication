@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket
 {
-    public class GetUserName : IRequest<string>
+    public class GetUserNameQuery : IRequest<string>
     {
         public string UserId { get; set; }
 
-        public GetUserName(string userId)
+        public GetUserNameQuery(string userId)
         {
             UserId = userId;
         }

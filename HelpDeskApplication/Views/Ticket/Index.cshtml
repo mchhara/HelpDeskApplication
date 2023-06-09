@@ -75,13 +75,13 @@
                         <span style="color: red;">Closed</span>
                     }
                     </h4>
-                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserName(item.AssignedToId!))</strong></p>
+                <p class="card-subtitle mb-2 ">Assigned to: <strong>@await mediator.Send(new GetUserNameQuery(item.AssignedToId!))</strong></p>
             </div>
 
             <div class="card-body">
                 <p class="card-subtitle mb-2 ">
                     <strong> Created at:</strong> @item.CreatedAt.ToString("dd.MM.yyyy H:mm") <br> by
-                    <strong>@await mediator.Send(new GetUserName(item.CreateById!))</strong> </p>
+                    <strong>@await mediator.Send(new GetUserNameQuery(item.CreateById!))</strong> </p>
                 <p class="card-subtitle mb-2 "> <strong> Closed at: </strong>
                     @if (item.ClosedAt == null)
                     {
