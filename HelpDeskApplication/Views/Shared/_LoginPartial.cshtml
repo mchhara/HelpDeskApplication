@@ -1,12 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserRole
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@using MediatR
+@inject IMediator mediator
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name! 
+                (
+                @{
+                    var userRoleQuery = new GetUserRoleQuery(User.Identity?.Name!);
+                    var userRoles = await mediator.Send(userRoleQuery);
+                    var rolesString = string.Join(", ", userRoles);
+                }
+                <strong>
+                @rolesString
+                </strong>
+                )
+            </a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
