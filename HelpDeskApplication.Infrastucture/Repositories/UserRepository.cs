@@ -59,6 +59,12 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return roles;
         }
 
+        public async Task DeleteUser(string userName)
+        {
+            var user = _dbContext.Users.FirstOrDefault(e => e.Email == userName);
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+        }
 
     }
 }

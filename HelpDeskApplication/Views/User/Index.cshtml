@@ -31,8 +31,12 @@
                     @rolesString
                 </td>
                 <td>
-                    @Html.ActionLink("Change Role", "ChangeRole", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <div class="btn-group">
+                        @Html.ActionLink("Change Role", "ChangeRole", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
+                        <form method="post" action="@Url.Action("Delete", new { name = item.Email })">
+                            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');" />
+                        </form>
+                    </div>
                 </td>
             </tr>
         }

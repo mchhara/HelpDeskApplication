@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using HelpDeskApplication.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace HelpDeskApplication.Domain.Interfaces
     {
         Task<List<IdentityUser>> GetAllTechnicians();
         Task<IdentityUser> GetUserName(string userId);
+        Task DeleteUser(string user);
         Task<List<IdentityRole>> GetUserRoles(string userName);
         Task<List<IdentityUser>> GetAllUsers();
     }
