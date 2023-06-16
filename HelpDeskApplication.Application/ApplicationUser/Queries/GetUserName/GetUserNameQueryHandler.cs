@@ -19,7 +19,7 @@ namespace HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFro
         }
         public async Task<string> Handle(GetUserNameQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserName(request.UserId);
+            var user = await _userRepository.GetUserById(request.UserId);
 
             var userName = user?.UserName;
 

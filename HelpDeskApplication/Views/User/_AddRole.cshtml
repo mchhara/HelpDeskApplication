@@ -1,0 +1,87 @@
+﻿@using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserRole
+@model HelpDeskApplication.Application.ApplicationUser.Commands.AddRole.AddRoleCommand
+@using MediatR
+@inject IMediator mediator
+
+@{
+    var userRoleQuery = new GetUserRoleQuery(Model.UserName!);
+    var userRoles = await mediator.Send(userRoleQuery);
+    var userRolesList = userRoles.Select(role => role.Name).ToList();
+}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserRoleModal">
+    Add Role
+</button>
+<!-- Modal -->
+<div class="modal fade" id="addUserRoleModal" tabindex="-1" aria-labelledby="addUserRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="AddRole">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserRoleModalLabel">Add new role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="UserName" class="form-control" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="SelectedRoles" class="control-label">Roles</label>
+                        <br />
+                        @if (userRolesList.Contains("Admin"))
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-admin" name="SelectedRoles" value="Admin" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <label class="form-check-label" for="checkbox-admin">Admin</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-admin" name="SelectedRoles" value="Admin" class="form-check-input" />
+                                <label class="form-check-label" for="checkbox-admin">Admin</label>
+                            </div>
+                        }
+
+                        @if (userRolesList.Contains("Technician"))
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-technician" name="SelectedRoles" value="Technician" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <label class="form-check-label" for="checkbox-technician">Technician</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-technician" name="SelectedRoles" value="Technician" class="form-check-input" />
+                                <label class="form-check-label" for="checkbox-technician">Technician</label>
+                            </div>
+                        }
+
+                        @if (userRolesList.Contains("User"))
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-user" name="SelectedRoles" value="User" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <label class="form-check-label" for="checkbox-user">User</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <input type="checkbox" id="checkbox-user" name="SelectedRoles" value="User" class="form-check-input" />
+                                <label class="form-check-label" for="checkbox-user">User</label>
+                            </div>
+                        }
+                        <span asp-validation-for="SelectedRoles" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

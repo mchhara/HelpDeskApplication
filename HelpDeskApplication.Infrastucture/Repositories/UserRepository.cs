@@ -10,7 +10,6 @@ namespace HelpDeskApplication.Infrastucture.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly HelpDeskApplicationDbContext _dbContext;
-
         public UserRepository(HelpDeskApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -28,9 +27,15 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return technicians;
         }
 
-        public async Task<IdentityUser> GetUserName(string userId)
+        public async Task<IdentityUser> GetUserById(string userId)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(e => e.Id == userId);
+
+            return user!;
+        }
+        public async Task<IdentityUser> GetUserByName(string userName)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(e => e.Email == userName);
 
             return user!;
         }
@@ -40,8 +45,8 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             var users = await (from userRole in _dbContext.UserRoles
                                      join user in _dbContext.Users on userRole.UserId equals user.Id
                                      join role in _dbContext.Roles on userRole.RoleId equals role.Id
-                                     where role.Name == "Technician" || role.Name == "User"
-                                     select user)
+                               select user)
+                                     .Distinct()
                                      .ToListAsync();
 
             return users;
@@ -52,12 +57,17 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             var roles = await (from userRole in _dbContext.UserRoles
                                join user in _dbContext.Users on userRole.UserId equals user.Id
                                join role in _dbContext.Roles on userRole.RoleId equals role.Id
-                               where user.UserName == userName 
+                               where user.UserName == userName
                                select role)
                               .ToListAsync();
 
-            return roles;
+            var distinctRoles = roles.GroupBy(r => r.Id).Select(g => g.First()).ToList();
+
+            return distinctRoles;
         }
+
+
+
 
         public async Task DeleteUser(string userName)
         {
@@ -65,6 +75,31 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task AddUserRolesAsync(string userName, List<string> roleNames)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.UserName == userName);
+
+            var roleIds = await _dbContext.Roles
+                .Where(r => roleNames.Contains(r.Name))
+                .Select(r => r.Id)
+                .ToListAsync();
+
+            var userRoles = new List<IdentityUserRole<string>>();
+
+            foreach (var roleId in roleIds)
+            {
+                userRoles.Add(new IdentityUserRole<string>
+                {
+                    UserId = user.Id,
+                    RoleId = roleId
+                });
+            }
+
+            await _dbContext.UserRoles.AddRangeAsync(userRoles);
+            await _dbContext.SaveChangesAsync();
+        }
+
 
     }
 }
