@@ -1,11 +1,16 @@
 ﻿using AutoMapper;
+using HelpDeskApplication.Application.ApplicationUser;
+using HelpDeskApplication.Application.ApplicationUser.Commands.AddRole;
 using HelpDeskApplication.Application.ApplicationUser.Commands.DeleteUser;
 using HelpDeskApplication.Application.ApplicationUser.Queries.GetAllUsers;
+using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserByName;
+using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket;
 using HelpDeskApplication.Application.Ticket.Commands.DeleteTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUser;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketBySearchTitle;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
+using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
 using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedNameQuery;
 using HelpDeskApplication.Extenions;
 using MediatR;
@@ -19,10 +24,12 @@ namespace HelpDeskApplication.Controllers
     {
 
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         public UserController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
 
@@ -34,8 +41,15 @@ namespace HelpDeskApplication.Controllers
             return View(allUsers);
         }
 
+        [Route("User/{userName}/Details")]
+        public async Task<IActionResult> Details(string userName)
+        {
+            var dto = await _mediator.Send(new GetUserByNameQuery(userName));
+            return View(dto);
+        }
+
+
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("User/Delete/{name}")]
         public async Task<IActionResult> Delete(string name)
         {
@@ -47,5 +61,16 @@ namespace HelpDeskApplication.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [Route("User/AddRole")]
+        public async Task<IActionResult> AddRole(AddRoleCommand command)
+        {
+
+            await _mediator.Send(command);
+
+            this.SetNotification("success", "Role added");
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
