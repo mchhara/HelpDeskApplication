@@ -76,7 +76,7 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task AddUserRolesAsync(string userName, List<string> roleNames)
+        public async Task AddUserRoles(string userName, List<string> roleNames)
         {
             var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.UserName == userName);
 
@@ -100,6 +100,21 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteUserRoles(string userName, List<string> roleNames)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.UserName == userName);
 
+            var roleIds = await _dbContext.Roles
+                .Where(r => roleNames.Contains(r.Name))
+                .Select(r => r.Id)
+                .ToListAsync();
+
+            var userRoles = await _dbContext.UserRoles
+                .Where(ur => ur.UserId == user.Id && roleIds.Contains(ur.RoleId))
+                .ToListAsync();
+
+            _dbContext.UserRoles.RemoveRange(userRoles);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

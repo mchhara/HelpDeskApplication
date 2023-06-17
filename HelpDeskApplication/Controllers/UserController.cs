@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HelpDeskApplication.Application.ApplicationUser;
 using HelpDeskApplication.Application.ApplicationUser.Commands.AddRole;
+using HelpDeskApplication.Application.ApplicationUser.Commands.DeleteRole;
 using HelpDeskApplication.Application.ApplicationUser.Commands.DeleteUser;
 using HelpDeskApplication.Application.ApplicationUser.Queries.GetAllUsers;
 using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserByName;
@@ -69,6 +70,18 @@ namespace HelpDeskApplication.Controllers
             await _mediator.Send(command);
 
             this.SetNotification("success", "Role added");
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [Route("User/DeleteRole")]
+        public async Task<IActionResult> DeleteRole(DeleteRoleCommand command)
+        {
+
+            await _mediator.Send(command);
+
+            this.SetNotification("success", "Role delete");
 
             return RedirectToAction(nameof(Index));
         }
