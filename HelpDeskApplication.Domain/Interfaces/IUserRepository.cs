@@ -17,6 +17,7 @@ namespace HelpDeskApplication.Domain.Interfaces
         Task DeleteUser(string user);
         Task<List<IdentityRole>> GetUserRoles(string userName);
         Task<List<IdentityUser>> GetAllUsers();
-        Task AddUserRolesAsync(string userName, List<string> roleNames);
+        Task AddUserRoles(string userName, List<string> roleNames);
+        Task DeleteUserRoles(string userName, List<string> roleNames);
     }
 }

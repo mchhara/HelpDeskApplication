@@ -22,7 +22,7 @@ namespace HelpDeskApplication.Application.ApplicationUser.Commands.AddRole
 
         public async Task<Unit> Handle(AddRoleCommand request, CancellationToken cancellationToken)
         { 
-            await _userRepository.AddUserRolesAsync(request.UserName, request.SelectedRoles);
+            await _userRepository.AddUserRoles(request.UserName, request.SelectedRoles);
 
             return Unit.Value;
         }
