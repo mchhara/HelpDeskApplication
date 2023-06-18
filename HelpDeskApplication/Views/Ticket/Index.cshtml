@@ -9,7 +9,6 @@
 @{
     ViewData["Title"] = "Tickets";
     string? filterValue = ViewData["Filter"]?.ToString();
-    string? userId = User.Identity?.Name;
 }
 
 <h1>Tickets</h1>
@@ -35,11 +34,11 @@
             <option value="Closed" selected="@(filterValue == "Closed")">Closed</option>
             @if (User.IsInRole("User"))
             {
-                <option value=@userId selected="@(filterValue == "My Tickets")">My Tickets</option>
+                <option value="My Tickets" selected="@(filterValue == "My Tickets")">My Tickets</option>
             }
             @if (User.IsInRole("Technician"))
             {
-                <option value=@userId selected="@(filterValue == "Tickets Assigned To Me")">Tickets Assigned To Me</option>
+                <option value="Tickets Assigned To Me" selected="@(filterValue == "Tickets Assigned To Me")">Tickets Assigned To Me</option>
             }
         </select>
     </div>

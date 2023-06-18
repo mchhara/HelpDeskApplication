@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using HelpDeskApplication.Application.Ticket;
 using HelpDeskApplication.Application.Ticket.Commands.CloseTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Commands.CreateTicket;
@@ -6,6 +7,7 @@ using HelpDeskApplication.Application.Ticket.Commands.DeleteTicket;
 using HelpDeskApplication.Application.Ticket.Commands.EditTicket;
 using HelpDeskApplication.Application.Ticket.Commands.GetTicketByEncodedName;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
+using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterTechnician;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUser;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketBySearchTitle;
 using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
@@ -77,9 +79,13 @@ namespace HelpDeskApplication.Controllers
             {
                 if(statusFilter =="Open" || statusFilter =="Closed")
                     allTickets = await _mediator.Send(new GetAllTicketByFilterStateQuery(statusFilter));
+                if(statusFilter == "Tickets Assigned To Me")
+                {
+                    allTickets = await _mediator.Send(new GetAllTicketByFilterTechnicianQuery());
+                }
                 else
                 {
-                    allTickets = await _mediator.Send(new GetAllTicketByFilterUserQuery(statusFilter));
+                    allTickets = await _mediator.Send(new GetAllTicketByFilterUserQuery());
                 }
             }
 

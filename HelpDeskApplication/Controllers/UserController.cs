@@ -5,22 +5,14 @@ using HelpDeskApplication.Application.ApplicationUser.Commands.DeleteRole;
 using HelpDeskApplication.Application.ApplicationUser.Commands.DeleteUser;
 using HelpDeskApplication.Application.ApplicationUser.Queries.GetAllUsers;
 using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserByName;
-using HelpDeskApplication.Application.ApplicationUser.Queries.GetUserNameFromTicket;
-using HelpDeskApplication.Application.Ticket.Commands.DeleteTicket;
-using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilter;
-using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUser;
-using HelpDeskApplication.Application.Ticket.Queries.GetAllTicketBySearchTitle;
-using HelpDeskApplication.Application.Ticket.Queries.GetAllTickets;
-using HelpDeskApplication.Application.Ticket.Queries.GetTicket;
-using HelpDeskApplication.Application.Ticket.Queries.GetTicketByEncodedNameQuery;
 using HelpDeskApplication.Extenions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;using Microsoft.AspNetCore.Mvc;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HelpDeskApplication.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
 

@@ -59,16 +59,16 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return Enumerable.Empty<Ticket>();
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByCurrentUser(string userName)
+        public async Task<IEnumerable<Ticket>> GetTicketsByCurrentUser(string userId)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(userId))
             {
                 return await _dbContext.Tickets.ToListAsync();
             }
 
             var query = from ticket in _dbContext.Tickets
                         join user in _dbContext.Users on ticket.CreateById equals user.Id
-                        where user.UserName == userName
+                        where user.Id == userId
                         select ticket;
 
             if (query == null)
@@ -79,16 +79,16 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByCurrentTechnician(string technicianName)
+        public async Task<IEnumerable<Ticket>> GetTicketsByCurrentTechnician(string technicianId)
         {
-            if (string.IsNullOrEmpty(technicianName))
+            if (string.IsNullOrEmpty(technicianId))
             {
                 return await _dbContext.Tickets.ToListAsync();
             }
 
             var query = from ticket in _dbContext.Tickets
                         join user in _dbContext.Users on ticket.AssignedToId equals user.Id
-                        where user.UserName == technicianName
+                        where user.Id == technicianId
                         select ticket;
 
             if (query == null)
