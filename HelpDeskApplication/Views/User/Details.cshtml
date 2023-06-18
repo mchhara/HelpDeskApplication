@@ -15,9 +15,14 @@
 <div>
     <div class="btn-group">
         <h4 style="margin-right: 20px;">User Management</h4>
-
+        @if (userRolesList.Count != 1)
+        {
         <partial name="_DeleteRole" model="new DeleteRoleCommand() { UserName = Model.Email, SelectedRoles = userRolesList }" />
-        <partial name="_AddRole" model="new AddRoleCommand() { UserName = Model.Email, SelectedRoles = userRolesList }" />
+        }
+        @if (userRolesList.Count != 3)
+        {
+            <partial name="_AddRole" model="new AddRoleCommand() { UserName = Model.Email, SelectedRoles = userRolesList }" />
+        }
         <form method="post" action="@Url.Action("Delete", new { name = Model.Email })">
             <input type="submit" value="Delete User" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');" />
         </form>

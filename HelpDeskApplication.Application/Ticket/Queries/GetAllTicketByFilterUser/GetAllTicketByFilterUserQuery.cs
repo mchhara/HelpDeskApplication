@@ -9,11 +9,5 @@ namespace HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUse
 {
     public class GetAllTicketByFilterUserQuery : IRequest<IEnumerable<TicketDto>>
     {
-        public string Filter { get; set; }
-
-        public GetAllTicketByFilterUserQuery(string filter)
-        {
-            Filter = filter;
-        }
     }
 }

@@ -13,6 +13,7 @@
 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserRoleModal">
     Delete Role
 </button>
+
 <!-- Modal -->
 <div class="modal fade" id="deleteUserRoleModal" tabindex="-1" aria-labelledby="deleteUserRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -33,7 +34,7 @@
                         @if (!userRolesList.Contains("Admin"))
                         {
                             <div>
-                                <input type="checkbox" id="checkbox-admin" name="SelectedRoles" value="Admin" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <input type="checkbox" id="checkbox-admin" name="SelectedRoles" value="Admin" class="form-check-input" checked disabled="disabled" />
                                 <label class="form-check-label" for="checkbox-admin">Admin</label>
                             </div>
                         }
@@ -48,7 +49,7 @@
                         @if (!userRolesList.Contains("Technician"))
                         {
                             <div>
-                                <input type="checkbox" id="checkbox-technician" name="SelectedRoles" value="Technician" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <input type="checkbox" id="checkbox-technician" name="SelectedRoles" value="Technician" class="form-check-input" checked disabled="disabled" />
                                 <label class="form-check-label" for="checkbox-technician">Technician</label>
                             </div>
                         }
@@ -63,7 +64,7 @@
                         @if (!userRolesList.Contains("User"))
                         {
                             <div>
-                                <input type="checkbox" id="checkbox-user" name="SelectedRoles" value="User" class="form-check-input" checked onclick="return false;" disabled="disabled" />
+                                <input type="checkbox" id="checkbox-user" name="SelectedRoles" value="User" class="form-check-input" checked disabled="disabled" />
                                 <label class="form-check-label" for="checkbox-user">User</label>
                             </div>
                         }
@@ -76,6 +77,9 @@
                         }
                         <span asp-validation-for="SelectedRoles" class="text-danger"></span>
                     </div>
+                    <div id="checkbox-error" class="text-danger" style="display:none;">
+                        Please select up to 2 roles.
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -85,3 +89,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    var checkboxes = document.querySelectorAll('input[name="SelectedRoles"]');
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            var checkedCount = document.querySelectorAll('input[name="SelectedRoles"]:checked').length;
+            if (checkedCount > 2) {
+                checkbox.checked = false;
+                document.getElementById('checkbox-error').style.display = 'block';
+            }
+        });
+    });
+
+    var errorMessage = document.getElementById('checkbox-error');
+    errorMessage.textContent = 'User must have at least 1 role.';
+</script>

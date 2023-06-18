@@ -28,15 +28,7 @@ namespace HelpDeskApplication.Application.Ticket.Queries.GetAllTicketByFilterUse
         {
             var currentUser = _userContext.GetCurrentUser();
 
-            if (currentUser!.IsInRole("User"))
-            {
-                var userTickets = await _ticketRepository.GetTicketsByCurrentUser(request.Filter);
-                var userDtos = _mapper.Map<IEnumerable<TicketDto>>(userTickets);
-
-                return userDtos;
-            }
-            var tickets = await _ticketRepository.GetTicketsByCurrentTechnician(request.Filter);
-
+            var tickets = await _ticketRepository.GetTicketsByCurrentUser(currentUser.Id);
             var dtos = _mapper.Map<IEnumerable<TicketDto>>(tickets);
 
             return dtos;
