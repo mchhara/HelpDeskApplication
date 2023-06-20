@@ -22,7 +22,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HelpDeskApplication.Controllers
 {
-    public class TicketController : Controller
+	[Authorize]
+	public class TicketController : Controller
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;

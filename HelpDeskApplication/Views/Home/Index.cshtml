@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div class="text-center">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<h1 class="display-4"><strong>HelpDeskApplication</strong></h1>
+	<h2>Welcome <u>@User.Identity.Name</u></h2>
+    <br>
+	<div id="chartContainer" style="height: 400px; width: 60%;  border: 5px solid; margin: auto; padding: 10px;"></div>
 </div>
+<script type="text/javascript">
+
+window.onload = function () {
+
+	var chart = new CanvasJS.Chart("chartContainer", {
+		title:{
+				text: "Top ticket's requesters"
+		},
+		data: [
+		{
+			type: "column",
+					dataPoints: @Html.Raw(ViewBag.Data)
+		}
+		]
+	});
+	chart.render();
+}
+</script>

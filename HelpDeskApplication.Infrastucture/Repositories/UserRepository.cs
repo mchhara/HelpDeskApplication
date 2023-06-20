@@ -1,4 +1,5 @@
-﻿using HelpDeskApplication.Domain.Entities;
+﻿using HelpDeskApplication.Application.ApplicationUser;
+using HelpDeskApplication.Domain.Entities;
 using HelpDeskApplication.Domain.Interfaces;
 using HelpDeskApplication.Infrastucture.Database;
 using Microsoft.AspNetCore.Identity;
@@ -116,5 +117,14 @@ namespace HelpDeskApplication.Infrastucture.Repositories
             _dbContext.UserRoles.RemoveRange(userRoles);
             await _dbContext.SaveChangesAsync();
         }
-    }
+
+		public async Task<int> GetUserTicketCounts(string userId)
+		{
+			var userTicketCounts = await _dbContext.Tickets
+		.CountAsync(ticket => ticket.CreateById == userId);
+
+			return userTicketCounts;
+		}
+	}
 }
+
