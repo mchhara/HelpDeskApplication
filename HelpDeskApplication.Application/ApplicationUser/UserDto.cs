@@ -9,5 +9,6 @@ namespace HelpDeskApplication.Application.ApplicationUser
     public class UserDto
     {
         public string Email { get; set; }
+        public int CreatedTicketsCount { get; set; }
     }
 }
